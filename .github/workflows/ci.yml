@@ -13,24 +13,12 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
-
-    - name: Cache npm
-      uses: actions/cache@v4
-      with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
     - name: Install dependencies
       run: npm ci
-      
     - name: Install Playwright Browsers
-      run: npm run pw:install
-
+      run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npm run ci:pw:tests
-
+      run: npx playwright test
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
