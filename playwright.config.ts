@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test'
 
 /**
  * Read environment variables from file.
@@ -35,8 +35,9 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
+      name: 'chromium:e2e',
       use: { ...devices['Desktop Chrome'] },
+      testMatch: /.*(e2e.test).(ts)/,
     },
 
     /* Test against mobile viewports. */
@@ -66,4 +67,4 @@ export default defineConfig({
   //   url: 'http://localhost:4001',
   //   reuseExistingServer: !process.env.CI,
   // },
-});
+})

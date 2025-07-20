@@ -10,7 +10,8 @@
     "pw:tests": "playwright test",
     "ci:pw:tests": "npm run pw:tests",
     "pw:tests:ui": "playwright test --ui",
-    "pw:install": "run: npx playwright install --with-deps"
+    "pw:install": "run: npx playwright install --with-deps",
+    "ci:pw:install": "npm run pw:install -- --only-shell"
   },
   "dependencies": {
     "next": "15.4.2",
@@ -18,6 +19,7 @@
     "react-dom": "19.1.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
     "@eslint/eslintrc": "^3",
     "@playwright/test": "^1.54.1",
     "@types/node": "^20",
