@@ -1,6 +1,9 @@
 import styles from './page.module.css'
 import Link from 'next/link'
 
+// Next steps
+// Read ALL Next.js docs
+
 // TODO: metadata?
 // TODO: customize 404 page
 // Check all the existing and indexed pages
