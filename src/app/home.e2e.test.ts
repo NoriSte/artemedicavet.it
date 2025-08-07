@@ -1,24 +1,67 @@
-import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
+import { test, expect, type Page } from '@playwright/test'
 
-test.describe('/', () => {
-  test('does not have a11y violations', async ({ page }) => {
-    await page.goto('/', { waitUntil: 'networkidle' })
+test.describe('/', async () => {
+  test.describe('should be usable without JS', async () => {
+    test.use({ javaScriptEnabled: false })
 
-    const accessibilityScanResults = await new AxeBuilder({ page }).analyze()
+    test.describe('/', () => {
+      test('is rendered on the server', async ({ page }) => {
+        await page.goto('/')
 
-    expect(accessibilityScanResults.violations).toEqual([])
+        expect(page.getByText('I describe the page’s primary topic')).toBeVisible()
+
+        await page.screenshot({ fullPage: true, path: './src/app/home.rsc.e2e.test.png' })
+      })
+    })
   })
-  test('does not trigger JS errors at runtime', async ({ page }) => {
-    const errors: string[] = []
 
-    // Listen to runtime errors on the page
-    page.on('pageerror', (error) => errors.push(error.message))
+  test.describe('(serial tests)', async () => {
+    test.describe.configure({ mode: 'serial' })
 
-    await page.goto('/', { waitUntil: 'networkidle' })
+    let page: Page
 
-    expect(page.getByText('This is the banner region.')).toBeVisible()
+    test.beforeAll(async ({ browser }) => {
+      page = await browser.newPage()
+    })
 
-    expect(errors, `Runtime errors found: ${errors.join('\n')}`).toEqual([])
+    test.afterAll(async () => {
+      await page.close()
+    })
+
+    test.describe('/', () => {
+      test('runs first', async () => {
+        await page.goto('/', {
+          // Ensure Next.js is not loading any component
+          waitUntil: 'networkidle',
+        })
+
+        const errors: string[] = []
+
+        // Listen to runtime errors on the page
+        page.on('pageerror', (error) => errors.push(error.message))
+
+        expect(errors, `Runtime errors found: ${errors.join('\n')}`).toEqual([])
+      })
+
+      test('runs second', async () => {
+        expect(page.getByText('I describe the page’s primary topic')).toBeVisible()
+      })
+    })
+  })
+
+  test.describe('(parallel tests)', async () => {
+    test.describe.configure({ mode: 'default' })
+
+    test('Does not contain a11y violations', async ({ page }) => {
+      await page.goto('/', {
+        // Ensure Next.js is not loading any component
+        waitUntil: 'networkidle',
+      })
+
+      const accessibilityScanResults = await new AxeBuilder({ page }).analyze()
+
+      expect(accessibilityScanResults.violations).toEqual([])
+    })
   })
 })
