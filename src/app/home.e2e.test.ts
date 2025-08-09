@@ -1,18 +1,16 @@
 import AxeBuilder from '@axe-core/playwright'
 import { test, expect, type Page } from '@playwright/test'
 
-test.describe('/', async () => {
-  test.describe('should be usable without JS', async () => {
+test.describe('home page', async () => {
+  test.describe('is rendered on the server', async () => {
     test.use({ javaScriptEnabled: false })
 
-    test.describe('/', () => {
-      test('is rendered on the server', async ({ page }) => {
-        await page.goto('/')
+    test('is rendered on the server', async ({ page }) => {
+      await page.goto('/')
 
-        expect(page.getByText('I describe the page’s primary topic')).toBeVisible()
+      expect(page.getByText('I describe the page’s primary topic')).toBeVisible()
 
-        await page.screenshot({ fullPage: true, path: './src/app/home.rsc.e2e.test.png' })
-      })
+      await page.screenshot({ fullPage: true, path: './src/app/home.rsc.e2e.test.png' })
     })
   })
 
@@ -29,24 +27,22 @@ test.describe('/', async () => {
       await page.close()
     })
 
-    test.describe('/', () => {
-      test('runs first', async () => {
-        await page.goto('/', {
-          // Ensure Next.js is not loading any component
-          waitUntil: 'networkidle',
-        })
-
-        const errors: string[] = []
-
-        // Listen to runtime errors on the page
-        page.on('pageerror', (error) => errors.push(error.message))
-
-        expect(errors, `Runtime errors found: ${errors.join('\n')}`).toEqual([])
+    test('runs first', async () => {
+      await page.goto('/', {
+        // Ensure Next.js is not loading any component
+        waitUntil: 'networkidle',
       })
 
-      test('runs second', async () => {
-        expect(page.getByText('I describe the page’s primary topic')).toBeVisible()
-      })
+      const errors: string[] = []
+
+      // Listen to runtime errors on the page
+      page.on('pageerror', (error) => errors.push(error.message))
+
+      expect(errors, `Runtime errors found: ${errors.join('\n')}`).toEqual([])
+    })
+
+    test('runs second', async () => {
+      expect(page.getByText('I describe the page’s primary topic')).toBeVisible()
     })
   })
 

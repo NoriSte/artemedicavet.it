@@ -1,5 +1,5 @@
-import styles from './page.module.css'
-import { Header } from './components/Header'
+import Link from 'next/link'
+import { Header } from '../components/Header'
 
 // Next steps
 // E2E tests without JS (RSC)
@@ -20,15 +20,14 @@ import { Header } from './components/Header'
 export default function Home() {
   return (
     <>
-      <Header currentPage={'/'} />
+      <Header currentPage={'/chi-siamo'} />
       <main>
         <h1>I describe the page’s primary topic</h1>
         <section>
           <h2>I describe the contents of a child section</h2>
         </section>
       </main>
-
-      <footer className={styles.footer}>Footer</footer>
+      <footer>footer</footer>
     </>
   )
 }
