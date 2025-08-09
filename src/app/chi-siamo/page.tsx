@@ -1,21 +1,6 @@
-import Link from 'next/link'
 import { Header } from '../components/Header'
 
-// Next steps
-// E2E tests without JS (RSC)
-// Read ALL Next.js docs
-
-// TODO: metadata?
-// TODO: customize 404 page
-// Check all the existing and indexed pages
-// style/show the text found in google?
-// eslint-plugin-jsx-a11y
-// eslint import order
-// oxlint
-// vitest browser mode?
-// axe
-// llms.txt
-// metafata +favicon
+// ⚠️ Don't forget to add me to the sitemap.xml
 
 export default function Home() {
   return (

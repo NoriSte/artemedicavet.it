@@ -17,6 +17,8 @@ import { Header } from './components/Header'
 // llms.txt
 // metafata +favicon
 
+// ⚠️ Don't forget to add me to the sitemap.xml
+
 export default function Home() {
   return (
     <>
