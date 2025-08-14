@@ -1,4 +1,7 @@
+import { CompanyInfo } from '../components/companyInfo/CompanyInfo'
+import { Footer } from '../components/footer/Footer'
 import { Header } from '../components/Header'
+import { WorkingHours } from '../components/workingHours/WorkingHours'
 
 // ⚠️ Don't forget to add me to the sitemap.xml
 
@@ -12,7 +15,10 @@ export default function Home() {
           <h2>I describe the contents of a child section</h2>
         </section>
       </main>
-      <footer>footer</footer>
+      <Footer>
+        <WorkingHours headingLevel="h2" />
+        <CompanyInfo />
+      </Footer>
     </>
   )
 }

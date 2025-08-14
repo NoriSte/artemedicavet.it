@@ -14,6 +14,10 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+
+  /* github.com's font-family */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
 }
 
 body {
