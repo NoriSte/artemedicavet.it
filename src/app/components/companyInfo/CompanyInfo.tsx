@@ -1,3 +1,6 @@
+/**
+ * @attention Update the Schema.org file too
+ */
 export function CompanyInfo() {
   return (
     <dl>

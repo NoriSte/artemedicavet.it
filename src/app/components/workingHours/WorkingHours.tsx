@@ -2,6 +2,9 @@ type Props = {
   headingLevel: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 }
 
+/**
+ * @attention Update the Schema.org file too
+ */
 export function WorkingHours(props: Props) {
   const { headingLevel: HeadingTag } = props
 
