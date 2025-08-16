@@ -1,16 +1,17 @@
 import AxeBuilder from '@axe-core/playwright'
 import { test, expect, type Page } from '@playwright/test'
 
-test.describe('/', async () => {
+test.describe('/chi-siamo', async () => {
   test.describe('is rendered on the server', async () => {
     test.use({ javaScriptEnabled: false })
 
     test('is rendered on the server', async ({ page }) => {
-      await page.goto('/')
+      await page.goto('/chi-siamo')
 
-      expect(page.getByText('I describe the page’s primary topic')).toBeVisible()
+      await expect(page.getByRole('heading', { name: 'Chi siamo' })).toBeVisible()
+      // TODO: check aria current page is set
 
-      await page.screenshot({ fullPage: true, path: './src/app/home.rsc.e2e.test.png' })
+      await page.screenshot({ fullPage: true, path: './src/app/chi-siamo.rsc.e2e.test.png' })
     })
   })
 

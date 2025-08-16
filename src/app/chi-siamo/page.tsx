@@ -13,7 +13,7 @@ export default function Home() {
         <PrimaryNav currentPage={'/chi-siamo'} />
       </Header>
       <main>
-        <h1>I describe the page’s primary topic</h1>
+        <h1>Chi siamo</h1>
         <section>
           <h2>I describe the contents of a child section</h2>
         </section>
