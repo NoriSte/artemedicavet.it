@@ -7,7 +7,7 @@ import Schema from './components/schema/Schema'
 export const metadata: Metadata = {
   title: 'Clinica Veterinaria Artemedica',
   description:
-    'La Clinica Veterinaria Artemedica del dottor Marco Fossati e della dr.essa Valentina Menaballi si trova a Valmadrera (Lecco), in via Gavazzi, 2.',
+    'La Clinica Veterinaria Artemedica del dr. Marco Fossati e della dr.essa Valentina Menaballi si trova a tre minuti da Lecco e dispone di un ampio parcheggio.',
 }
 
 export default function RootLayout({
@@ -15,16 +15,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Product',
-    name: 'product.name',
-    image: 'product.image',
-    description: 'product.description',
-  }
   return (
     <html lang="it">
-      <title>Home | WidgetCo</title>
+      <title>Clinica Vaterinaria Artemedica</title>
       <body>
         <Schema />
         {children}

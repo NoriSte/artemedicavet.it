@@ -2,6 +2,9 @@ import type { VeterinaryCare } from 'schema-dts'
 
 import type { WithContext } from 'schema-dts'
 
+/**
+ * See https://nextjs.org/docs/app/guides/json-ld
+ */
 export const schema: WithContext<VeterinaryCare> = {
   '@context': 'https://schema.org',
   '@type': 'VeterinaryCare',
@@ -18,26 +21,26 @@ export const schema: WithContext<VeterinaryCare> = {
   email: 'info@artemedicavet.it',
   vatID: 'IT03748770132',
   // TODO: fix the type
-  hoursAvailable: [
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-      opens: '10:00',
-      closes: '12:30',
-    },
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-      opens: '15:30',
-      closes: '20:00',
-    },
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: 'Saturday',
-      opens: '10:00',
-      closes: '18:30',
-    },
-  ],
+  // hoursAvailable: [
+  //   {
+  //     '@type': 'OpeningHoursSpecification',
+  //     dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+  //     opens: '10:00',
+  //     closes: '12:30',
+  //   },
+  //   {
+  //     '@type': 'OpeningHoursSpecification',
+  //     dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+  //     opens: '15:30',
+  //     closes: '20:00',
+  //   },
+  //   {
+  //     '@type': 'OpeningHoursSpecification',
+  //     dayOfWeek: 'Saturday',
+  //     opens: '10:00',
+  //     closes: '18:30',
+  //   },
+  // ],
 }
 
 export default function Schema() {

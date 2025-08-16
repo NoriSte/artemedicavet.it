@@ -1,6 +1,7 @@
 import { CompanyInfo } from '../components/companyInfo/CompanyInfo'
 import { Footer } from '../components/footer/Footer'
-import { Header } from '../components/Header'
+import { Header } from '../components/header/Header'
+import { PrimaryNav } from '../components/primaryNav/PrimaryNav'
 import { WorkingHours } from '../components/workingHours/WorkingHours'
 
 // ⚠️ Don't forget to add me to the sitemap.xml
@@ -8,7 +9,9 @@ import { WorkingHours } from '../components/workingHours/WorkingHours'
 export default function Home() {
   return (
     <>
-      <Header currentPage={'/chi-siamo'} />
+      <Header>
+        <PrimaryNav currentPage={'/chi-siamo'} />
+      </Header>
       <main>
         <h1>I describe the page’s primary topic</h1>
         <section>
