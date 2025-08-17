@@ -1,5 +1,26 @@
-@media screen and (max-width: 1024px) {
-  #primaryNav {
-    display: none;
+/* Store 1023 in a variable */
+@media screen and (max-width: 1023px) {
+  header > nav {
+    position: absolute;
+    /* list-style: none; */
+    left: 100vw;
+    width: 80vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.5);
+
+    /* It comes from Preply */
+    transition-duration: 220ms;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+
+    transition-property: transform visibility;
+  }
+
+  [aria-expanded='false'] + nav {
+    visibility: hidden;
+    transform: translateX(0);
+  }
+  [aria-expanded='true'] + nav {
+    visibility: visible;
+    transform: translateX(-100vw);
   }
 }

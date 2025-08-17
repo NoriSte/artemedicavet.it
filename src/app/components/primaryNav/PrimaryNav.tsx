@@ -7,10 +7,6 @@ type Props = { currentPage?: CurrentRoute }
 
 export const primaryNavId = 'primaryNav'
 
-export function getPrimaryNavElement() {
-  return document.getElementById(primaryNavId)
-}
-
 import './primaryNav.css'
 
 export function PrimaryNav(props: Props) {

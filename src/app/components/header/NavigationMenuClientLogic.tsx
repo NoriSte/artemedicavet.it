@@ -3,7 +3,6 @@
 import { useEffect, type PropsWithChildren } from 'react'
 import { useWindowWidth } from './useWindowWidth'
 import { navigationMenuToggleId } from './NavigationMenuToggle'
-import { getPrimaryNavElement } from '../primaryNav/PrimaryNav'
 
 type Props = PropsWithChildren
 
@@ -20,17 +19,13 @@ export function NavigationMenuClientLogic(props: Props) {
 
   useEffect(() => {
     const navigationMenuToggle = getNavigationMenuToggle()
-    const primaryNavElement = getPrimaryNavElement()
-    console.log({ primaryNavElement })
 
     function openNavigation() {
       navigationMenuToggle.setAttribute('aria-expanded', 'true')
-      primaryNavElement.classList.remove('hidden')
     }
 
     function closeNavigation() {
       navigationMenuToggle.setAttribute('aria-expanded', 'false')
-      primaryNavElement.classList.add('hidden')
     }
 
     function toggleNavigation() {
