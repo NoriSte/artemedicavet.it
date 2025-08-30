@@ -1,7 +1,7 @@
 import { CompanyInfo } from '../components/companyInfo/CompanyInfo'
 import { Footer } from '../components/footer/Footer'
+import { FullNav } from '../components/fullNav/FullNav'
 import { Header } from '../components/header/Header'
-import { PrimaryNav } from '../components/primaryNav/PrimaryNav'
 import { WorkingHours } from '../components/workingHours/WorkingHours'
 
 // ⚠️ Don't forget to add me to the sitemap.xml
@@ -9,9 +9,7 @@ import { WorkingHours } from '../components/workingHours/WorkingHours'
 export default function Home() {
   return (
     <>
-      <Header>
-        <PrimaryNav currentPage={'/chi-siamo'} />
-      </Header>
+      <Header currentPage={'/chi-siamo'} />
       <main>
         <h1>Chi siamo</h1>
         <section>
@@ -19,6 +17,7 @@ export default function Home() {
         </section>
       </main>
       <Footer>
+        <FullNav currentPage={'/chi-siamo'} />
         <WorkingHours headingLevel="h2" />
         <CompanyInfo />
       </Footer>

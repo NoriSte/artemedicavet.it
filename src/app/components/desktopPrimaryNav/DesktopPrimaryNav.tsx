@@ -5,15 +5,15 @@ type CurrentRoute = LinkProps['href']
 
 type Props = { currentPage?: CurrentRoute }
 
-export const primaryNavId = 'primaryNav'
+export const desktopPrimaryNavId = 'primaryNav'
 
-import './primaryNav.css'
+import './desktopPrimaryNav.css'
 
-export function PrimaryNav(props: Props) {
+export function DesktopPrimaryNav(props: Props) {
   const { currentPage } = props
 
   return (
-    <nav id={primaryNavId}>
+    <nav id={desktopPrimaryNavId} aria-label="Pagine principali">
       <ul>
         <Link
           href="/"

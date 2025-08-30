@@ -1,0 +1,8 @@
+/* Store 1023 in a variable */
+@media screen and (max-width: 1023px) {
+  header > nav {
+    display: none;
+  }
+
+
+}

@@ -3,6 +3,7 @@ import { Header } from './components/header/Header'
 import { Footer } from './components/footer/Footer'
 import { WorkingHours } from './components/workingHours/WorkingHours'
 import { CompanyInfo } from './components/companyInfo/CompanyInfo'
+import { FullNav } from './components/fullNav/FullNav'
 
 // Next steps
 // E2E tests without JS (RSC)
@@ -45,6 +46,8 @@ export default function Home() {
       </main>
 
       <Footer>
+        {/* TODO: maybe add the hours on top and bottom of the footer */}
+        <FullNav currentPage={'/'}/>
         <WorkingHours headingLevel="h2" />
         <CompanyInfo />
       </Footer>

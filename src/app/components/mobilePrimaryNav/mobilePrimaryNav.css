@@ -1,0 +1,54 @@
+/*   Open state of the dialog  */
+dialog[open] {
+  opacity: 1;
+  transform: translateX(0);
+  /* visibility: visible; */
+  border: none;
+}
+
+/*   Closed state of the dialog   */
+dialog {
+  background-color: transparent;
+
+  width: 100vw;
+  min-width: 100vw;
+  min-height: 100vh;
+  opacity: 0;
+  /* visibility: hidden; */
+  transform: translateX(100vw);
+  transition: all 0.3s allow-discrete;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/*   Before-open state  */
+/* Needs to be after the previous dialog[open] rule to take effect,
+    as the specificity is the same */
+@starting-style {
+  dialog[open] {
+    opacity: 0;
+    transform: translateX(100vw);
+  }
+}
+
+/* Transition the :backdrop when the dialog modal is promoted to the top layer */
+dialog::backdrop {
+  background-color: rgb(25 35 41 / 0%);
+  transition: all 0.3s allow-discrete;
+}
+
+dialog[open]::backdrop {
+  background-color: rgb(25 35 41 / 30%);
+}
+
+/* This starting-style rule cannot be nested inside the above selector
+because the nesting selector cannot represent pseudo-elements. */
+@starting-style {
+  dialog[open]::backdrop {
+    background-color: rgb(25 35 41 / 0%);
+  }
+}
+
+#dialog-container {
+  background-color: yellow;
+}
