@@ -1,9 +1,9 @@
 import Link from 'next/link'
-import { NavigationMenuToggle } from './NavigationMenuToggle'
-import { NavigationMenuClientLogic } from './NavigationMenuClientLogic'
+
 import type { PropsWithChildren } from 'react'
 import { DesktopPrimaryNav } from '../desktopPrimaryNav/DesktopPrimaryNav'
 import { MobilePrimaryNav } from '../mobilePrimaryNav/mobilePrimaryNav'
+import { MobilePrimaryNavClientLogic } from '../mobilePrimaryNav/MobilePrimaryNavClientLogic'
 
 type LinkProps = React.ComponentProps<typeof Link>
 type CurrentRoute = LinkProps['href']
@@ -15,11 +15,10 @@ export function Header(props: Props) {
 
   return (
     <header>
-      <NavigationMenuClientLogic>
-        <NavigationMenuToggle />
-      </NavigationMenuClientLogic>
       <DesktopPrimaryNav currentPage={currentPage} />
-      <MobilePrimaryNav currentPage={currentPage} />
+      <MobilePrimaryNavClientLogic>
+        <MobilePrimaryNav currentPage={currentPage} />
+      </MobilePrimaryNavClientLogic>
     </header>
   )
 }

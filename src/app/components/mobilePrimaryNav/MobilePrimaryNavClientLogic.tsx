@@ -33,6 +33,7 @@ export function MobilePrimaryNavClientLogic(props: Props) {
         !showButton.contains(event.target)
       ) {
         dialog.close()
+
         // document.body.style.overflow = 'auto'
       }
     })

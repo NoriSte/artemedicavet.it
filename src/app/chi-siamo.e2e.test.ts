@@ -43,7 +43,7 @@ test.describe('/chi-siamo', async () => {
     })
 
     test('runs second', async () => {
-      expect(page.getByText('I describe the page’s primary topic')).toBeVisible()
+      expect(page.getByText('Chi siamo')).toBeVisible()
     })
   })
 

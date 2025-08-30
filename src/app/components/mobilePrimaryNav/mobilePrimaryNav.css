@@ -1,3 +1,10 @@
+/* Store 1023 in a variable */
+@media (min-width: 1024px) {
+  #showButton {
+    display: none;
+  }
+}
+
 /*   Open state of the dialog  */
 dialog[open] {
   opacity: 1;
@@ -17,7 +24,7 @@ dialog {
   /* visibility: hidden; */
   transform: translateX(100vw);
   transition: all 0.3s allow-discrete;
-  display: flex;
+  /* display: flex; */
   justify-content: flex-end;
 }
 

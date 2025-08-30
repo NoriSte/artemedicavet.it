@@ -8,7 +8,7 @@ test.describe('/', async () => {
     test('is rendered on the server', async ({ page }) => {
       await page.goto('/')
 
-      expect(page.getByText('I describe the page’s primary topic')).toBeVisible()
+      expect(page.getByText('Home page')).toBeVisible()
 
       await page.screenshot({ fullPage: true, path: './src/app/home.rsc.e2e.test.png' })
     })
@@ -42,7 +42,7 @@ test.describe('/', async () => {
     })
 
     test('runs second', async () => {
-      expect(page.getByText('I describe the page’s primary topic')).toBeVisible()
+      expect(page.getByText('Home page')).toBeVisible()
     })
   })
 

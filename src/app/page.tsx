@@ -39,7 +39,7 @@ export default function Home() {
     <>
       <Header currentPage={'/'} />
       <main>
-        <h1>I describe the page’s primary topic</h1>
+        <h1>Home page</h1>
         <section>
           <h2>I describe the contents of a child section</h2>
         </section>
@@ -47,7 +47,7 @@ export default function Home() {
 
       <Footer>
         {/* TODO: maybe add the hours on top and bottom of the footer */}
-        <FullNav currentPage={'/'}/>
+        <FullNav currentPage={'/'} />
         <WorkingHours headingLevel="h2" />
         <CompanyInfo />
       </Footer>

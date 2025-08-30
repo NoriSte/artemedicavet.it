@@ -1,9 +1,0 @@
-#navigationMenuToggle {
-  display: none;
-}
-
-@media screen and (max-width: 1023px) {
-  #navigationMenuToggle {
-    display: block;
-  }
-}
