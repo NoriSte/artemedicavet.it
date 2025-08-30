@@ -14,7 +14,7 @@ export function MobilePrimaryNav(props: Props) {
 
   return (
     <>
-      <button id="showButton" aria-label="Apri menú di navigazione">
+      <button id="openNavigationMenuButton" aria-label="Apri menú di navigazione">
         (icon)
       </button>
       `

@@ -11,10 +11,18 @@ test.describe('Navigation, using chi-siamo page', async () => {
     test('aria-current is set to the current page', async ({ page }) => {
       await page.goto('/chi-siamo')
 
-      // TODO: this should go in the per-page tests
-      await test.step('aria-current is correctly set', async () => {
-        const ariaCurrent = page.locator('[aria-current="page"]')
-        await expect.soft(ariaCurrent).toHaveAccessibleName('Chi siamo')
+      await test.step('All the elements with aria-current=page contain the name of the correct page', async () => {
+        const currentPageEls = await page.locator('[aria-current="page"]').all()
+        for (const el of currentPageEls) {
+          expect.soft(el).toContainText('Chi siamo')
+        }
+      })
+
+      await test.step('All the links that point to the correct page have the aria-current=page attribute', async () => {
+        const chiSiamoLinks = await page.locator('a[href="/chi-siamo"]').all()
+        for (const link of chiSiamoLinks) {
+          expect.soft(link).toHaveAttribute('aria-current', 'page')
+        }
       })
     })
 
@@ -25,16 +33,16 @@ test.describe('Navigation, using chi-siamo page', async () => {
 
       page.setViewportSize({ width: minDesktopWidth, height: 768 })
 
-      await test.step('navigationMenuToggle is not visible', async () => {
-        const navigationMenuToggle = page.getByLabel('Menú di navigazione')
-        await expect.soft(navigationMenuToggle).not.toBeVisible()
+      await test.step('openNavigationMenuButton is not visible', async () => {
+        const openNavigationMenuButton = page.getByLabel('Apri menú di navigazione')
+        await expect.soft(openNavigationMenuButton).not.toBeVisible()
       })
 
       page.setViewportSize({ width: minDesktopWidth - 1, height: 768 })
 
-      await test.step('navigationMenuToggle is visible', async () => {
-        const navigationMenuToggle = page.getByLabel('Menú di navigazione')
-        await expect.soft(navigationMenuToggle).toBeVisible()
+      await test.step('openNavigationMenuButton is visible', async () => {
+        const openNavigationMenuButton = page.getByLabel('Apri menú di navigazione')
+        await expect.soft(openNavigationMenuButton).toBeVisible()
       })
     })
   })
@@ -43,7 +51,7 @@ test.describe('Navigation, using chi-siamo page', async () => {
     page.setViewportSize({ width: minDesktopWidth - 1, height: 768 })
     await page.goto('/chi-siamo')
 
-    const navigationMenuToggle = page.getByLabel('Menú di navigazione')
+    const navigationMenuToggle = page.getByLabel('Apri menú di navigazione')
     const primaryNav = page.locator('header > nav')
 
     await test.step('aria attributes are in the initial state', async () => {

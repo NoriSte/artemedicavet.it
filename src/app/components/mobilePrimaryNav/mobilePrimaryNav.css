@@ -1,6 +1,6 @@
 /* Store 1023 in a variable */
 @media (min-width: 1024px) {
-  #showButton {
+  #openNavigationMenuButton {
     display: none;
   }
 }
