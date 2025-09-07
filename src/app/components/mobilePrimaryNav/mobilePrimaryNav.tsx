@@ -5,7 +5,8 @@ type CurrentRoute = LinkProps['href']
 
 type Props = { currentPage?: CurrentRoute }
 
-export const mobilePrimaryNavId = 'primaryNav'
+export const mobilePrimaryNavId = 'mobilePrimaryNav'
+export const mobileNavDialogId = 'mobileNavDialog'
 
 import './mobilePrimaryNav.css'
 
@@ -14,17 +15,22 @@ export function MobilePrimaryNav(props: Props) {
 
   return (
     <>
-      <button id="openNavigationMenuButton" aria-label="Apri menú di navigazione">
+      <button
+        id="openNavigationMenuButton"
+        aria-label="Apri menú di navigazione"
+        aria-haspopup="menu"
+        aria-controls={mobileNavDialogId}
+      >
         (icon)
       </button>
       `
-      <dialog>
+      <dialog aria-modal="true" aria-labelledby="TODO:" id={mobileNavDialogId}>
         <div id="dialog-container">
           <button id="closeButton" aria-label="Chiudi menú di navigazione">
             X
           </button>
           <nav id={mobilePrimaryNavId}>
-            <ul>
+            <menu>
               <Link
                 href="/"
                 aria-current={currentPage === '/' ? 'page' : undefined}
@@ -41,7 +47,7 @@ export function MobilePrimaryNav(props: Props) {
               >
                 Chi siamo
               </Link>
-            </ul>
+            </menu>
           </nav>
         </div>
       </dialog>

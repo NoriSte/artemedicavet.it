@@ -14,7 +14,7 @@ export function DesktopPrimaryNav(props: Props) {
 
   return (
     <nav id={desktopPrimaryNavId} aria-label="Pagine principali">
-      <ul>
+      <menu>
         <Link
           href="/"
           aria-current={currentPage === '/' ? 'page' : undefined}
@@ -28,7 +28,7 @@ export function DesktopPrimaryNav(props: Props) {
         <Link href="/chi-siamo" aria-current={currentPage === '/chi-siamo' ? 'page' : undefined}>
           Chi siamo
         </Link>
-      </ul>
+      </menu>
     </nav>
   )
 }

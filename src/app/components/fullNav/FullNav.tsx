@@ -13,7 +13,7 @@ export function FullNav(props: Props) {
   return (
     <nav aria-label="Tutte le pagine">
       {/* TODO: add ALL the routes */}
-      <ul>
+      <menu>
         <Link
           href="/"
           aria-current={currentPage === '/' ? 'page' : undefined}
@@ -27,7 +27,7 @@ export function FullNav(props: Props) {
         <Link href="/chi-siamo" aria-current={currentPage === '/chi-siamo' ? 'page' : undefined}>
           Chi siamo
         </Link>
-      </ul>
+      </menu>
     </nav>
   )
 }
