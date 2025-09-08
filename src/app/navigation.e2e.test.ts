@@ -146,6 +146,9 @@ test.describe('Navigation, using chi-siamo page', async () => {
     })
 
     await test.step('the focus is trapped inside the navigation menu', async () => {
+      // This step checks the mobile navigation is a modal dialog, which makes the body inert by default
+      // and the other navigation landmarks can't be navigated
+
       const mobileNavDialog = page.locator(`#${mobileNavDialogId}`)
       await expect(mobileNavDialog).toHaveAttribute('aria-modal', 'true')
 
