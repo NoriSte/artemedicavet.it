@@ -17,34 +17,32 @@ The WorkingHours component now fetches business hours directly from Google Place
 ```
 src/
 ├── app/
-│   ├── api/
-│   │   └── business-hours/
-│   │       └── route.ts                 # API endpoint to fetch hours
 │   └── components/
 │       ├── workingHours/
 │       │   └── WorkingHours.tsx         # Server component displaying hours
 │       └── schema/
 │           └── Schema.tsx               # Schema.org structured data
+├── services/
+│   └── googlePlaces.ts                  # Google Places API service
 ├── types/
 │   └── googlePlaces.ts                  # TypeScript types for Google Places API
 └── utils/
     └── workingHours.ts                  # Utility functions for formatting hours
 ```
 
-### Data Flow
+### Data Flow (Simplified with React Server Components)
 
 1. **User visits page** → Next.js renders page (Server Side)
-2. **WorkingHours component** → Calls internal API `/api/business-hours`
-3. **API route** → Fetches from Google Places API (New) v1
-4. **Response cached** → Next.js caches response for 1 hour
+2. **Server Components** → Directly call `fetchBusinessHours()` service
+3. **Service** → Fetches from Google Places API (New) v1
+4. **Response cached** → Next.js automatically caches response for 1 hour
 5. **Fallback** → If API fails, uses static FALLBACK_HOURS
 
-## API Endpoint
+**Why no API route?** React Server Components can fetch data directly on the server, eliminating the need for an intermediate API route. This simplifies the architecture and reduces unnecessary HTTP calls.
 
-### `/api/business-hours`
+## Data Structure
 
-**Method:** GET
-**Response:** JSON
+The `fetchBusinessHours()` service returns:
 
 ```typescript
 {
@@ -250,7 +248,7 @@ Potential improvements:
 
 - [WorkingHours.tsx](src/app/components/workingHours/WorkingHours.tsx) - Main component
 - [Schema.tsx](src/app/components/schema/Schema.tsx) - Schema.org markup
-- [route.ts](src/app/api/business-hours/route.ts) - API endpoint
+- [googlePlaces.ts](src/services/googlePlaces.ts) - Google Places API service
 - [googlePlaces.ts](src/types/googlePlaces.ts) - TypeScript types
 - [workingHours.ts](src/utils/workingHours.ts) - Utility functions
 - [README.md](README.md) - Project setup instructions

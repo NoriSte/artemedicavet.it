@@ -1,34 +1,8 @@
-import type { WorkingHoursData } from '@/types/googlePlaces'
-import { groupConsecutiveDays, FALLBACK_HOURS, isToday, formatDate } from '@/utils/workingHours'
+import { groupConsecutiveDays, isToday, formatDate } from '@/utils/workingHours'
+import { fetchBusinessHours } from '@/services/googlePlaces'
 
 type Props = {
   headingLevel: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
-}
-
-/**
- * Fetches working hours from Google Places API
- * Falls back to static hours if API fails
- */
-async function fetchWorkingHours(): Promise<WorkingHoursData> {
-  try {
-    // In production, use absolute URL. In development, relative URL works.
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || ''
-    const response = await fetch(`${baseUrl}/api/business-hours`, {
-      next: {
-        revalidate: 3600, // Cache for 1 hour
-      },
-    })
-
-    if (!response.ok) {
-      console.warn('Failed to fetch working hours, using fallback')
-      return FALLBACK_HOURS
-    }
-
-    return await response.json()
-  } catch (error) {
-    console.error('Error fetching working hours:', error)
-    return FALLBACK_HOURS
-  }
 }
 
 /**
@@ -42,7 +16,7 @@ async function fetchWorkingHours(): Promise<WorkingHoursData> {
  */
 export async function WorkingHours(props: Props) {
   const { headingLevel: HeadingTag } = props
-  const workingHours = await fetchWorkingHours()
+  const workingHours = await fetchBusinessHours()
   const groupedHours = groupConsecutiveDays(workingHours.regularHours)
 
   // Find special days that are relevant (today or future)
@@ -67,7 +41,7 @@ export async function WorkingHours(props: Props) {
                 {specialDay.closed ? (
                   <span> - Chiuso</span>
                 ) : specialDay.hours ? (
-                  <span> - {specialDay.hours.map(h => `${h.open} – ${h.close}`).join(', ')}</span>
+                  <span> - {specialDay.hours.map((h) => `${h.open} – ${h.close}`).join(', ')}</span>
                 ) : (
                   <span> - {specialDay.description}</span>
                 )}

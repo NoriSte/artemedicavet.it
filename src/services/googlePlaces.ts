@@ -1,16 +1,11 @@
-import { NextResponse } from 'next/server'
 import type { GooglePlace, WorkingHoursData } from '@/types/googlePlaces'
+import { FALLBACK_HOURS } from '@/utils/workingHours'
 
 /**
  * Google Places API (New) - Place Details endpoint
  * @see https://developers.google.com/maps/documentation/places/web-service/place-details
  */
 const GOOGLE_PLACES_API_URL = 'https://places.googleapis.com/v1/places'
-
-// Cache duration in seconds (1 hour)
-const CACHE_DURATION = 3600
-
-export const revalidate = CACHE_DURATION
 
 /**
  * Converts Google Places day number to Italian day name
@@ -82,21 +77,20 @@ function transformGooglePlaceData(place: GooglePlace): WorkingHoursData {
 }
 
 /**
- * GET /api/business-hours
  * Fetches business hours from Google Places API
+ * This is designed to be called from React Server Components
+ *
+ * @returns WorkingHoursData or falls back to static hours if API fails
  */
-export async function GET() {
+export async function fetchBusinessHours(): Promise<WorkingHoursData> {
   try {
     const placeId = process.env.GOOGLE_PLACE_ID
     const apiKey = process.env.GOOGLE_PLACES_API_KEY
 
+    // If credentials are missing, return fallback hours
     if (!placeId || !apiKey) {
-      return NextResponse.json(
-        {
-          error: 'Missing required environment variables: GOOGLE_PLACE_ID and GOOGLE_PLACES_API_KEY',
-        },
-        { status: 500 }
-      )
+      console.warn('Missing GOOGLE_PLACE_ID or GOOGLE_PLACES_API_KEY, using fallback hours')
+      return FALLBACK_HOURS
     }
 
     // Fetch place details from Google Places API
@@ -108,32 +102,20 @@ export async function GET() {
           'id,displayName,regularOpeningHours,currentOpeningHours',
       },
       next: {
-        revalidate: CACHE_DURATION,
+        revalidate: 3600, // Cache for 1 hour
       },
     })
 
     if (!response.ok) {
       const errorText = await response.text()
       console.error('Google Places API error:', errorText)
-      return NextResponse.json(
-        { error: 'Failed to fetch business hours from Google Places API' },
-        { status: response.status }
-      )
+      return FALLBACK_HOURS
     }
 
     const place: GooglePlace = await response.json()
-    const workingHours = transformGooglePlaceData(place)
-
-    return NextResponse.json(workingHours, {
-      headers: {
-        'Cache-Control': `public, s-maxage=${CACHE_DURATION}, stale-while-revalidate=${CACHE_DURATION * 2}`,
-      },
-    })
+    return transformGooglePlaceData(place)
   } catch (error) {
     console.error('Error fetching business hours:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return FALLBACK_HOURS
   }
 }

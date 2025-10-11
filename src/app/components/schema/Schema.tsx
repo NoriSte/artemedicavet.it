@@ -1,28 +1,6 @@
 import type { WithContext } from 'schema-dts'
 import type { WorkingHoursData } from '@/types/googlePlaces'
-import { FALLBACK_HOURS } from '@/utils/workingHours'
-
-/**
- * Fetches working hours from Google Places API
- */
-async function fetchWorkingHours(): Promise<WorkingHoursData> {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || ''
-    const response = await fetch(`${baseUrl}/api/business-hours`, {
-      next: {
-        revalidate: 3600, // Cache for 1 hour
-      },
-    })
-
-    if (!response.ok) {
-      return FALLBACK_HOURS
-    }
-
-    return await response.json()
-  } catch {
-    return FALLBACK_HOURS
-  }
-}
+import { fetchBusinessHours } from '@/services/googlePlaces'
 
 type DayOfWeek =
   | 'Monday'
@@ -86,7 +64,7 @@ function convertToSchemaHours(
  * See https://nextjs.org/docs/app/guides/json-ld
  */
 export default async function Schema() {
-  const workingHours = await fetchWorkingHours()
+  const workingHours = await fetchBusinessHours()
   const openingHoursSpecification = convertToSchemaHours(workingHours)
 
   const schema: WithContext<{
