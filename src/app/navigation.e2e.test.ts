@@ -128,7 +128,7 @@ test.describe('Navigation, using chi-siamo page', async () => {
     })
   })
 
-  test('The mobile nav menu is can be toggled with the keyboard', async ({ page }) => {
+  test('The mobile nav menu can be toggled with the keyboard', async ({ page }) => {
     page.setViewportSize({ width: minDesktopWidth - 1, height: 768 })
     await page.goto('/chi-siamo')
 

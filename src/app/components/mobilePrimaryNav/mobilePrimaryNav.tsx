@@ -23,7 +23,7 @@ export function MobilePrimaryNav(props: Props) {
       >
         (icon)
       </button>
-      `
+
       <dialog aria-modal="true" aria-labelledby="TODO:" id={mobileNavDialogId}>
         <div id="dialog-container">
           <button id="closeButton" aria-label="Chiudi menú di navigazione">
