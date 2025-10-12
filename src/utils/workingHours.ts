@@ -2,7 +2,8 @@ import type { WorkingHoursData } from '@/types/googlePlaces'
 
 /**
  * Groups consecutive days with the same hours together
- * e.g., "Lunedì – Venerdì: 10:00 – 12:30"
+ * e.g., "Lunedì – Venerdì: 10:00 – 13:00"
+ * TODO: write unit tests
  */
 export function groupConsecutiveDays(
   regularHours: WorkingHoursData['regularHours']
@@ -44,11 +45,9 @@ export function groupConsecutiveDays(
 
 /**
  * Formats periods into a readable string
- * e.g., "10:00 – 12:30 / 15:30 – 20:00"
+ * e.g., "10:00 – 13:00 / 14:30 – 19:00"
  */
-export function formatPeriods(
-  periods: { open: string; close: string }[]
-): string {
+export function formatPeriods(periods: { open: string; close: string }[]): string {
   if (!periods || periods.length === 0) {
     return 'Chiuso'
   }
@@ -82,54 +81,51 @@ export function formatDate(dateString: string): string {
   }).format(date)
 }
 
-/**
- * Fallback static hours (used when API fails)
- */
-export const FALLBACK_HOURS: WorkingHoursData = {
+export const REGULAR_HOURS: WorkingHoursData = {
   regularHours: [
     {
       dayOfWeek: 'Lunedì',
       periods: [
-        { open: '10:00', close: '12:30' },
-        { open: '15:30', close: '20:00' },
+        { open: '10:00', close: '13:00' },
+        { open: '14:30', close: '19:00' },
       ],
     },
     {
       dayOfWeek: 'Martedì',
       periods: [
-        { open: '10:00', close: '12:30' },
-        { open: '15:30', close: '20:00' },
+        { open: '10:00', close: '13:00' },
+        { open: '14:30', close: '19:00' },
       ],
     },
     {
       dayOfWeek: 'Mercoledì',
       periods: [
-        { open: '10:00', close: '12:30' },
-        { open: '15:30', close: '20:00' },
+        { open: '10:00', close: '13:00' },
+        { open: '14:30', close: '19:00' },
       ],
     },
     {
       dayOfWeek: 'Giovedì',
       periods: [
-        { open: '10:00', close: '12:30' },
-        { open: '15:30', close: '20:00' },
+        { open: '10:00', close: '13:00' },
+        { open: '14:30', close: '19:00' },
       ],
     },
     {
       dayOfWeek: 'Venerdì',
       periods: [
-        { open: '10:00', close: '12:30' },
-        { open: '15:30', close: '20:00' },
+        { open: '10:00', close: '13:00' },
+        { open: '14:30', close: '19:00' },
       ],
     },
     {
       dayOfWeek: 'Sabato',
-      periods: [{ open: '10:00', close: '18:30' }],
+      periods: [{ open: '10:00', close: '18:00' }],
     },
     {
       dayOfWeek: 'Domenica',
       periods: [],
     },
   ],
-  lastUpdated: new Date().toISOString(),
+  lastUpdated: '2025-10-12T12:34:58.549Z', // result of new Date().toISOString(),
 }

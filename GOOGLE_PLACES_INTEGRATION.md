@@ -51,7 +51,7 @@ The `fetchBusinessHours()` service returns:
       dayOfWeek: "Lunedì",
       periods: [
         { open: "10:00", close: "12:30" },
-        { open: "15:30", close: "20:00" }
+        { open: "14:30", close: "20:00" }
       ]
     },
     // ... more days
@@ -76,8 +76,8 @@ The `fetchBusinessHours()` service returns:
 The component automatically groups consecutive days with identical hours:
 
 ```
-Lunedì – Venerdì: 10:00 – 12:30 / 15:30 – 20:00
-Sabato: 10:00 – 18:30
+Lunedì – Venerdì: 10:00 – 13:00 / 14:30 – 19:00
+Sabato: 10:00 – 18:00
 Domenica: Chiuso
 ```
 
@@ -121,7 +121,6 @@ Create a `.env.local` file:
 
 ```env
 GOOGLE_PLACES_API_KEY=your_api_key_here
-GOOGLE_PLACE_ID=your_place_id_here
 NEXT_PUBLIC_BASE_URL=https://yourdomain.com  # Optional for production
 ```
 
@@ -212,7 +211,7 @@ To test special days:
 
 ### Issue: "Missing required environment variables"
 
-**Solution:** Ensure `.env.local` contains `GOOGLE_PLACES_API_KEY` and `GOOGLE_PLACE_ID`
+**Solution:** Ensure `.env.local` contains `GOOGLE_PLACES_API_KEY`.
 
 ### Issue: "Failed to fetch business hours"
 

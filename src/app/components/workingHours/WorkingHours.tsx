@@ -3,7 +3,12 @@ import { fetchBusinessHours } from '@/services/googlePlaces'
 
 type Props = {
   headingLevel: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+  forcedGooglePlacesApiStub?: unknown
 }
+
+// TODO: test per tutti gli scenari degli orari
+// TODO: la pagina deve rispondere subito con gli orari standard ed eventualmente aggiornarsi dopo il fetch
+// Ma come si comporta con la cache di Next.js? cioé una volta cacahto il risultato poi la pagina é praticamente immediata con i nuovi risultati?
 
 /**
  * @attention Update the Schema.org file too
@@ -15,8 +20,8 @@ type Props = {
  * - Current open/closed status
  */
 export async function WorkingHours(props: Props) {
-  const { headingLevel: HeadingTag } = props
-  const workingHours = await fetchBusinessHours()
+  const { headingLevel: HeadingTag, forcedGooglePlacesApiStub } = props
+  const workingHours = await fetchBusinessHours(forcedGooglePlacesApiStub)
   const groupedHours = groupConsecutiveDays(workingHours.regularHours)
 
   // Find special days that are relevant (today or future)
@@ -28,15 +33,27 @@ export async function WorkingHours(props: Props) {
   })
 
   return (
-    <>
+    <div data-testid="working-hours">
+      {new Date().toString()}
+      {typeof window}
       <HeadingTag>Orari di apertura</HeadingTag>
 
+      {JSON.stringify(workingHours)}
+
       {relevantSpecialDays && relevantSpecialDays.length > 0 && (
-        <div style={{ marginBottom: '1rem', padding: '0.75rem', backgroundColor: '#fff3cd', borderRadius: '4px' }}>
+        <div
+          data-testid="special-days-alert"
+          style={{
+            marginBottom: '1rem',
+            padding: '0.75rem',
+            backgroundColor: '#fff3cd',
+            borderRadius: '4px',
+          }}
+        >
           <strong>Attenzione - Orari speciali:</strong>
           <ul style={{ marginTop: '0.5rem', marginBottom: 0 }}>
             {relevantSpecialDays.map((specialDay, index) => (
-              <li key={index}>
+              <li key={index} data-testid={`special-day-${index}`}>
                 <strong>{formatDate(specialDay.date)}</strong>
                 {specialDay.closed ? (
                   <span> - Chiuso</span>
@@ -52,7 +69,7 @@ export async function WorkingHours(props: Props) {
         </div>
       )}
 
-      <dl>
+      <dl data-testid="regular-hours">
         {groupedHours.map((day, index) => (
           <div key={index}>
             <dt>{day.label}</dt>
@@ -62,10 +79,10 @@ export async function WorkingHours(props: Props) {
       </dl>
 
       {workingHours.isOpenNow !== undefined && (
-        <p style={{ marginTop: '1rem', fontStyle: 'italic' }}>
+        <p data-testid="open-status" style={{ marginTop: '1rem', fontStyle: 'italic' }}>
           {workingHours.isOpenNow ? 'Aperto ora' : 'Chiuso ora'}
         </p>
       )}
-    </>
+    </div>
   )
 }

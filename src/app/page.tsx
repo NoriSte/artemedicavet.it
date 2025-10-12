@@ -34,7 +34,11 @@ import { FullNav } from './components/fullNav/FullNav'
 
 // ⚠️ Don't forget to add me to the sitemap.xml
 
-export default function Home() {
+export default function Home({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined }
+}) {
   return (
     <>
       <Header currentPage={'/'} />
@@ -48,7 +52,10 @@ export default function Home() {
       <Footer>
         {/* TODO: maybe add the hours on top and bottom of the footer */}
         <FullNav currentPage={'/'} />
-        <WorkingHours headingLevel="h2" />
+        <WorkingHours
+          headingLevel="h2"
+          forcedGooglePlacesApiStub={searchParams.forcedGooglePlacesApiStub}
+        />
         <CompanyInfo />
       </Footer>
     </>

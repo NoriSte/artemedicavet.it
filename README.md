@@ -16,7 +16,6 @@ Create a `.env.local` file in the root directory with:
 ```env
 # Google Places API Configuration
 GOOGLE_PLACES_API_KEY=your_api_key_here
-GOOGLE_PLACE_ID=your_place_id_here
 
 # Optional: Base URL for production (used for API calls)
 NEXT_PUBLIC_BASE_URL=https://yourdomain.com

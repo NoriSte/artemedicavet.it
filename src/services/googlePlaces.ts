@@ -1,5 +1,5 @@
-import type { GooglePlace, WorkingHoursData } from '@/types/googlePlaces'
-import { FALLBACK_HOURS } from '@/utils/workingHours'
+import { isGooglePlace, type GooglePlace, type WorkingHoursData } from '@/types/googlePlaces'
+import { REGULAR_HOURS } from '@/utils/workingHours'
 
 /**
  * Google Places API (New) - Place Details endpoint
@@ -25,16 +25,14 @@ function formatTime(hour?: number, minute?: number): string {
 
 /**
  * Transforms Google Places data to our simplified structure
+ * TODO: write unit tests.
  */
 function transformGooglePlaceData(place: GooglePlace): WorkingHoursData {
   const regularHours = place.regularOpeningHours || place.currentOpeningHours
   const currentHours = place.currentOpeningHours
 
   // Group periods by day
-  const dayMap = new Map<
-    number,
-    { open: string; close: string }[]
-  >()
+  const dayMap = new Map<number, { open: string; close: string }[]>()
 
   regularHours?.periods?.forEach((period) => {
     if (period.open?.day !== undefined) {
@@ -76,30 +74,42 @@ function transformGooglePlaceData(place: GooglePlace): WorkingHoursData {
   }
 }
 
+const GOOGLE_PLACE_ID = 'ChIJQ5NFVgwdhEcRa3g8N5gI2E4'
+
 /**
  * Fetches business hours from Google Places API
  * This is designed to be called from React Server Components
  *
  * @returns WorkingHoursData or falls back to static hours if API fails
  */
-export async function fetchBusinessHours(): Promise<WorkingHoursData> {
+export async function fetchBusinessHours(
+  forcedGooglePlacesApiStub?: unknown
+): Promise<WorkingHoursData> {
   try {
-    const placeId = process.env.GOOGLE_PLACE_ID
+    if (typeof forcedGooglePlacesApiStub === 'string') {
+      try {
+        const stub = JSON.parse(forcedGooglePlacesApiStub)
+        if (isGooglePlace(stub)) {
+          return Promise.resolve(transformGooglePlaceData(stub))
+        }
+      } catch {}
+    }
+
     const apiKey = process.env.GOOGLE_PLACES_API_KEY
 
     // If credentials are missing, return fallback hours
-    if (!placeId || !apiKey) {
-      console.warn('Missing GOOGLE_PLACE_ID or GOOGLE_PLACES_API_KEY, using fallback hours')
-      return FALLBACK_HOURS
+    if (!apiKey) {
+      // TODO: how can I be notified if this happens in production?
+      console.warn('Missing GOOGLE_PLACES_API_KEY, using fallback hours')
+      return REGULAR_HOURS
     }
 
     // Fetch place details from Google Places API
-    const response = await fetch(`${GOOGLE_PLACES_API_URL}/${placeId}`, {
+    const response = await fetch(`${GOOGLE_PLACES_API_URL}/${GOOGLE_PLACE_ID}`, {
       headers: {
         'Content-Type': 'application/json',
         'X-Goog-Api-Key': apiKey,
-        'X-Goog-FieldMask':
-          'id,displayName,regularOpeningHours,currentOpeningHours',
+        'X-Goog-FieldMask': 'id,displayName,regularOpeningHours,currentOpeningHours',
       },
       next: {
         revalidate: 3600, // Cache for 1 hour
@@ -109,13 +119,20 @@ export async function fetchBusinessHours(): Promise<WorkingHoursData> {
     if (!response.ok) {
       const errorText = await response.text()
       console.error('Google Places API error:', errorText)
-      return FALLBACK_HOURS
+      return REGULAR_HOURS
     }
 
-    const place: GooglePlace = await response.json()
-    return transformGooglePlaceData(place)
+    const placeResponse = await response.json()
+
+    if (!isGooglePlace(placeResponse)) {
+      // TODO: how can I be notified if this happens in production?
+      console.error('The API response is no a valid Google Place')
+      return REGULAR_HOURS
+    }
+
+    return transformGooglePlaceData(placeResponse)
   } catch (error) {
     console.error('Error fetching business hours:', error)
-    return FALLBACK_HOURS
+    return REGULAR_HOURS
   }
 }
