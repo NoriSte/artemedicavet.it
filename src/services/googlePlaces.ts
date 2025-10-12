@@ -75,6 +75,7 @@ function transformGooglePlaceData(place: GooglePlace): WorkingHoursData {
 }
 
 const GOOGLE_PLACE_ID = 'ChIJQ5NFVgwdhEcRa3g8N5gI2E4'
+// https://www.google.com/maps/place/?q=place_id:ChIJQ5NFVgwdhEcRa3g8N5gI2E4
 
 /**
  * Fetches business hours from Google Places API

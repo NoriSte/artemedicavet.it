@@ -5,13 +5,7 @@ import type { GooglePlace } from '@/types/googlePlaces'
  * Use these to mock different scenarios in e2e tests
  */
 
-/**
- * Scenario 1: Normal operating hours
- * Mon-Fri: 10:00-13:00 / 14:00-19:00
- * Sat: 10:00-18:00
- * Sun: Closed
- */
-export const normalHoursMock: GooglePlace = {
+export const normalHoursOpenNowMock: GooglePlace = {
   id: 'test-place-id',
   displayName: {
     text: 'Clinica Veterinaria Artemedica',
@@ -62,9 +56,18 @@ export const normalHoursMock: GooglePlace = {
  * Special hours for Dec 24th
  */
 export const specialDayTodayMock: GooglePlace = {
-  ...normalHoursMock,
+  ...normalHoursOpenNowMock,
   currentOpeningHours: {
-    ...normalHoursMock.currentOpeningHours,
+    ...normalHoursOpenNowMock.currentOpeningHours,
+    openNow: true,
+    periods: [
+      { open: { day: 1, hour: 6, minute: 0 }, close: { day: 1, hour: 13, minute: 0 } },
+      { open: { day: 2, hour: 6, minute: 0 }, close: { day: 2, hour: 13, minute: 0 } },
+      { open: { day: 3, hour: 6, minute: 0 }, close: { day: 3, hour: 13, minute: 0 } },
+      { open: { day: 4, hour: 6, minute: 0 }, close: { day: 4, hour: 13, minute: 0 } },
+      { open: { day: 5, hour: 6, minute: 0 }, close: { day: 5, hour: 13, minute: 0 } },
+      { open: { day: 6, hour: 6, minute: 0 }, close: { day: 6, hour: 18, minute: 0 } },
+    ],
     specialDays: [
       {
         date: {
@@ -82,9 +85,9 @@ export const specialDayTodayMock: GooglePlace = {
  * Closed on Jan 1st
  */
 export const specialDayFutureMock: GooglePlace = {
-  ...normalHoursMock,
+  ...normalHoursOpenNowMock,
   currentOpeningHours: {
-    ...normalHoursMock.currentOpeningHours,
+    ...normalHoursOpenNowMock.currentOpeningHours,
     specialDays: [
       {
         date: {
@@ -101,9 +104,9 @@ export const specialDayFutureMock: GooglePlace = {
  * Scenario 4: Currently closed
  */
 export const currentlyClosedMock: GooglePlace = {
-  ...normalHoursMock,
+  ...normalHoursOpenNowMock,
   currentOpeningHours: {
-    ...normalHoursMock.currentOpeningHours,
+    ...normalHoursOpenNowMock.currentOpeningHours,
     openNow: false,
   },
 }
@@ -209,9 +212,9 @@ export const irregularScheduleMock: GooglePlace = {
  * Scenario 13: Multiple special days
  */
 export const multipleSpecialDaysMock: GooglePlace = {
-  ...normalHoursMock,
+  ...normalHoursOpenNowMock,
   currentOpeningHours: {
-    ...normalHoursMock.currentOpeningHours,
+    ...normalHoursOpenNowMock.currentOpeningHours,
     specialDays: [
       { date: { year: 1924, month: 13, day: 24 } },
       { date: { year: 1924, month: 13, day: 25 } },
