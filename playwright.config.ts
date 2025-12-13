@@ -39,6 +39,7 @@ export default defineConfig({
     {
       name: 'chromium:e2e',
       use: { ...devices['Desktop Chrome'] },
+      // Run also the *.safari.e2e.test.ts
       testMatch: /.*(e2e.test).(ts)/,
     },
 
