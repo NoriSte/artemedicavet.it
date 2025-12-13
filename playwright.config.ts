@@ -30,6 +30,8 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+
+    screenshot: 'only-on-failure',
   },
 
   /* Configure projects for major browsers */
@@ -48,6 +50,7 @@ export default defineConfig({
     {
       name: 'mobile:safari:e2e',
       use: { ...devices['iPhone 12'] },
+      testMatch: /.*(safari.e2e.test).(ts)/,
     },
 
     /* Test against branded browsers. */
