@@ -1,64 +1,53 @@
 import AxeBuilder from '@axe-core/playwright'
-import { test, expect, type Page } from '@playwright/test'
+import { test, expect } from '@playwright/test'
+import { checkAriaCurrent } from './navigation.testutils'
+
+// test.setTimeout(2_000) // quicker feedback loop
 
 test.describe('/chi-siamo', async () => {
-  test.describe('is rendered on the server', async () => {
-    test.use({ javaScriptEnabled: false })
+  test('The page look the same', async ({ page }) => {
+    await page.goto('/chi-siamo', {
+      // Ensure Next.js is not loading any component
+      waitUntil: 'networkidle',
+    })
 
-    test('is rendered on the server', async ({ page }) => {
-      await page.goto('/chi-siamo')
+    await page.screenshot({ fullPage: true, path: './src/app/chi-siamo.e2e.test.png' })
+  })
 
-      await expect(page.getByRole('heading', { name: 'Chi siamo' })).toBeVisible()
-      // TODO: check aria current page is set
-
-      await page.screenshot({ fullPage: true, path: './src/app/chi-siamo.rsc.e2e.test.png' })
+  test('aria-current is set to the current page', async ({ page }) => {
+    await checkAriaCurrent({
+      page,
+      pageUrl: '/chi-siamo',
+      pageTitle: 'Chi siamo',
     })
   })
 
-  test.describe('(serial tests)', async () => {
-    test.describe.configure({ mode: 'serial' })
-
-    let page: Page
-
-    test.beforeAll(async ({ browser }) => {
-      page = await browser.newPage()
+  test('There are no JS errors', async ({ page }) => {
+    await page.goto('/chi-siamo', {
+      // Ensure the page if fully loaded
+      waitUntil: 'networkidle',
     })
 
-    test.afterAll(async () => {
-      await page.close()
-    })
+    const errors: string[] = []
 
-    test('runs first', async () => {
-      await page.goto('/', {
-        // Ensure Next.js is not loading any component
-        waitUntil: 'networkidle',
-      })
+    // Listen to runtime errors on the page
+    page.on('pageerror', (error) => errors.push(error.message))
 
-      const errors: string[] = []
-
-      // Listen to runtime errors on the page
-      page.on('pageerror', (error) => errors.push(error.message))
-
-      expect(errors, `Runtime errors found: ${errors.join('\n')}`).toEqual([])
-    })
-
-    test('runs second', async () => {
-      expect(page.getByText('Chi siamo')).toBeVisible()
-    })
+    expect(errors, `Runtime errors found: ${errors.join('\n')}`).toEqual([])
   })
 
-  test.describe('(parallel tests)', async () => {
-    test.describe.configure({ mode: 'default' })
+  test('The heading structure reflects the page contents', async ({ page }) => {
+    await page.goto('/chi-siamo')
 
-    test('Does not contain a11y violations', async ({ page }) => {
-      await page.goto('/', {
-        // Ensure Next.js is not loading any component
-        waitUntil: 'networkidle',
-      })
+    const pageH1 = page.locator('h1')
+    expect(pageH1).toBeVisible()
+    expect(pageH1).toHaveText('Chi siamo')
+  })
 
-      const accessibilityScanResults = await new AxeBuilder({ page }).analyze()
+  test('Does not contain a11y violations', async ({ page }) => {
+    await page.goto('/chi-siamo')
 
-      expect(accessibilityScanResults.violations).toEqual([])
-    })
+    const accessibilityScanResults = await new AxeBuilder({ page }).analyze()
+    expect(accessibilityScanResults.violations).toEqual([])
   })
 })
