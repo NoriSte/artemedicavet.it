@@ -7,55 +7,12 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Environment Variables
 
-This project requires the following environment variables to fetch business hours from Google Places API:
-
-### Required Variables
-
 Create a `.env.local` file in the root directory with:
 
 ```env
-# Google Places API Configuration
-GOOGLE_PLACES_API_KEY=your_api_key_here
-
 # Optional: Base URL for production (used for API calls)
 NEXT_PUBLIC_BASE_URL=https://yourdomain.com
 ```
-
-### Getting Your Google Places API Key
-
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select an existing one
-3. Enable the **Places API (New)**
-4. Go to "Credentials" and create an API key
-5. Restrict the API key to only allow Places API (New)
-
-### Finding Your Google Place ID
-
-You can find your Place ID using:
-- [Place ID Finder](https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder)
-- Or search for your business and extract it from the URL
-
-### Features
-
-The working hours are fetched from Google Places API and include:
-- **Regular weekly hours** - automatically grouped (e.g., "Lunedì – Venerdì")
-- **Special days** - holidays or special hours (e.g., Dec 24th)
-- **Current open/closed status**
-- **Fallback to static hours** if the API is unavailable
-- **Automatic Schema.org markup** for SEO
-
-Google Business Profile remains the single source of truth for all business hours.
-
-### API Costs
-
-**Good news: The API is FREE for this use case!**
-
-- Google provides **10,000 free requests per month**
-- Plus a **$200 monthly credit** (until Feb 2025)
-- With 1-hour caching, you'll use ~720 requests/month
-- **Cost: $0** (well within free tier)
-
-See [GOOGLE_PLACES_INTEGRATION.md](GOOGLE_PLACES_INTEGRATION.md#api-costs) for detailed pricing information.
 
 ## Getting Started
 

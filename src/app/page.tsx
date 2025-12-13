@@ -1,7 +1,5 @@
-import styles from './page.module.css'
 import { Header } from './components/header/Header'
 import { Footer } from './components/footer/Footer'
-import { WorkingHours } from './components/workingHours/WorkingHours'
 import { CompanyInfo } from './components/companyInfo/CompanyInfo'
 import { FullNav } from './components/fullNav/FullNav'
 
@@ -25,7 +23,6 @@ import { FullNav } from './components/fullNav/FullNav'
 //   quando si avvicina la chiusura, dire "chiude tra poco, chiamare il numero fisso"
 //   dove c'é scritto "riceve su appuntamento"
 //   pagina dedicata agli orari?
-//   fetchare gli orari da google? qui il partial prerendering potrebbe aiutare
 // Scrivere che é vicino a lecco (e menzionare nella description delle pagine) con "ampio parcheggio"
 // TODO: schema.json, come esprimere tutti https://schema.org/VeterinaryCare + come indicare gli orari?
 // Accessibilioty: test with different zoom levels
@@ -34,11 +31,7 @@ import { FullNav } from './components/fullNav/FullNav'
 
 // ⚠️ Don't forget to add me to the sitemap.xml
 
-export default function Home({
-  searchParams,
-}: {
-  searchParams?: { [key: string]: string | string[] | undefined }
-}) {
+export default function Home() {
   return (
     <>
       <Header currentPage={'/'} />
@@ -52,10 +45,6 @@ export default function Home({
       <Footer>
         {/* TODO: maybe add the hours on top and bottom of the footer */}
         <FullNav currentPage={'/'} />
-        <WorkingHours
-          headingLevel="h2"
-          forcedGooglePlacesApiStub={searchParams.forcedGooglePlacesApiStub}
-        />
         <CompanyInfo />
       </Footer>
     </>

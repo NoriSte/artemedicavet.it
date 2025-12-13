@@ -2,7 +2,6 @@ import { CompanyInfo } from '../components/companyInfo/CompanyInfo'
 import { Footer } from '../components/footer/Footer'
 import { FullNav } from '../components/fullNav/FullNav'
 import { Header } from '../components/header/Header'
-import { WorkingHours } from '../components/workingHours/WorkingHours'
 
 // ⚠️ Don't forget to add me to the sitemap.xml
 
@@ -18,7 +17,7 @@ export default function Home() {
       </main>
       <Footer>
         <FullNav currentPage={'/chi-siamo'} />
-        <WorkingHours headingLevel="h2" />
+        Working hours?
         <CompanyInfo />
       </Footer>
     </>
